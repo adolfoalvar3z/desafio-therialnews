@@ -1,6 +1,19 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  #usuario normal
+  before_action only: [:new, :edit] do
+    authorize_request(["normal_user", "author", "admin"])
+  end
+  #usuario ejecutivo
+  before_action only: [:create, :update] do
+    authorize_request(["author", "admin"])
+  end
+  #usuario admin
+  before_action only: [:destroy] do
+    authorize_request(["admin"])
+  end
+
   # GET /comments or /comments.json
   def index
     @comments = Comment.all
