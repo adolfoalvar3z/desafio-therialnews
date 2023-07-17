@@ -1,14 +1,37 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Comments</h1>
-
+<h1>Comentarios</h1>
+<%= form_with url: comments_path, method: :get do |form| %>
+  <!-- Cuadro de búsqueda de tweets anteriores -->
+  <div class="card mb-2">
+    <div class="card-body">
+      <div class="input-group">
+        <%= form.text_field :buscar, class: "form-control", placeholder: "Buscar Comentario de Interés", value: @consulta %>
+        <%= form.submit 'Buscar', class: "btn btn-outline-primary" %>
+      </div>
+    </div>
+  </div>
+<% end %>
 <div id="comments">
-  <% @comments.each do |comment| %>
-    <%= render comment %>
-    <p>
-      <%= link_to "Show this comment", comment %>
-    </p>
-  <% end %>
+  <div class="table-responsive">
+    <table class="table text-center">
+      <thead>
+        <tr>
+          <th scope="col">Comentario</th>
+          <th scope="col">Titulo Noticia</th>
+          <th scope="col">Author Comentario</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @comments.each do |comment| %>
+          <tr class="">
+            <td><%= truncate(comment.content, length: 50) %></td>
+            <td><%= comment.news.title %></td>
+            <td><%= comment.user.name %></td>
+            <td><%= link_to "Ver este comentario", comment, class: "btn btn-primary" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<%= link_to "New comment", new_comment_path %>
+<%= link_to "Nuevo Comentario", new_comment_path, class: "btn btn-success" %>

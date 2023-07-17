@@ -17,6 +17,11 @@ class CommentsController < ApplicationController
   # GET /comments or /comments.json
   def index
     @comments = Comment.all
+
+    @consulta = params[:buscar]
+    if @consulta.present?
+      @comments = Comment.search_full_text(@consulta)
+    end
   end
 
   # GET /comments/1 or /comments/1.json
