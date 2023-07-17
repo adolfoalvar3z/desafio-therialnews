@@ -1,0 +1,38 @@
+<%= render @news %>
+<div>
+  <%= link_to "Volver a Noticias", news_index_path, class: "btn btn-primary"  %>
+  <br>
+  <br>
+  <% if user_signed_in? %>
+    <hr>
+    <!--BLOQUE COMENTARIOS-->
+    <div>
+      <h3>Bloque de Comentarios</h3>
+      <%= form_for([@news, @comment]) do |form| %>
+        <!-- Otros campos del formulario -->
+        <%= form.hidden_field :user_id, value: @current_user_id %>
+        <%= form.text_area :content, class: "form-control" %>
+        <br>
+        <%= form.submit "Enviar", class: "btn btn-primary" %>
+      <% end %>
+      <br>
+      <!--FIN FORMULARIO-->
+      <% @comments.each do |comment| %>
+        <!-- Otros atributos del comentario que deseas mostrar -->
+        <div class="card">
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p><%= comment.content%></p>
+              <footer class="blockquote-footer"><%= comment.user.name%> | <%= comment.created_at.strftime("%A %d de %B de %Y - %H:%M") %></footer>
+            </blockquote>
+          </div>
+        </div>
+        <br>
+      <% end %>
+      <!--BLOQUE COMENTARIOS-->
+      <div class="d-grid gap-2 d-md-flex">
+        <%= link_to "Editar esta Noticia", edit_news_path(@news) , class: "btn btn-warning" %>
+        <%= button_to "Destruir esta Noticia", @news, method: :delete, class: "btn btn-danger" %>
+      </div>
+    <% end %>
+  </div>
