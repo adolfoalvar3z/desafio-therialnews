@@ -76,8 +76,8 @@ config.action_mailer.smtp_settings = {
  address: 'mail.puntoaseo.cl',
  port: 587,
  domain: 'puntoaseo.cl',
- user_name: 'pruebasr0r@puntoaseo.cl',
- password: 'pruebasr0r*',
+ user_name: <%= ENV["user_name"] %>,
+ password: <%= ENV["password"] %>,
  authentication: 'plain',
  enable_starttls_auto: false
 }
